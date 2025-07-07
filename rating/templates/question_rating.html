@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load cache %}
+{% block title %}
+{{ prof_data.title }} sapaga degisli soraglar
+{% endblock %}
+
+{% block content %}
+
+    <h1 class="mt-5 fs-3"> {{ prof_data.title }} sapaga degisli soraglar</h1>
+    {% if prof_data.votes_access %}
+    <p class="fs-5 mt-3 mb-5 fs-6">Umumy sorag sany: {{ questions_amount }}.
+<!--        Вы можете-->
+<!--        <a type="button" class="link" data-bs-toggle="modal" data-bs-target="#exampleModal"> Добавить вопрос </a>-->
+    </p>
+    {% else %}
+    <p class="fs-5 mt-3 mb-5 fs-6">Umumy sorag sany: {{ ratings.count }}.
+<!--        Вы можете-->
+<!--        <a type="button" class="link" data-bs-toggle="modal" data-bs-target="#exampleModal"> Добавить вопрос </a>-->
+    </p>
+    {% endif %}
+    <div class="row align-items-start">
+            <div class="col-12 col-md-2 d-flex flex-column align-items-start">
+                <p class="">Filtr:</p>
+                <form action="">
+                    <select class="form-select" aria-label="Default select example" name="tag">
+                        {% if tag == None %}
+                            <option selected>Hemmesi</option>
+                        {% else %}
+                            <option selected>{{ tag }}</option>
+                        {% endif %}
+                          <option value="Все">Hemmesi</option>
+                        {% for tag in prof_data.tags.all %}
+                          <option value="{{ tag }}">{{ tag }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-primary mt-3">Saylamak</button>
+                </form>
+            </div>
+            {% if access %}
+            <div class="col">
+                <form class="d-flex mb-3" role="search" method="get" action="">
+                    {{ search_form.search_query }}
+                    <button class="btn btn-outline-success" type="submit">Gozle</button>
+                </form>
+                {% if prof_data.votes_access %}
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>Mumkincilik</th>
+                            <th>Sorag</th>
+                            <th class="d-none d-sm-table-cell">Teg</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rating in page_obj %}
+                        <tr>
+                            {% if rating.chance >= 10 %}
+                            <td align="center" class=" text-success">{{ rating.chance }}%</td>
+                            {% else %}
+                            <td align="center" class=" text-warning">{{ rating.chance }}%</td>
+                            {% endif %}
+                            <td><a href="{{ rating.question.get_url }}" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{ rating.question.title }}</a></td>
+                            {% if rating.question.tag == "Нет" %}
+                            <td class="d-none d-sm-table-cell"><a class="" href="https://t.me/kivaiko" target="_blank">Предложить</a></td>
+                            {% else %}
+                            <td class="d-none d-sm-table-cell">{{ rating.question.tag }}</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor  %}
+                    </tbody>
+                </table>
+                {% else %}
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sorag</th>
+                            <th class="d-none d-sm-table-cell">Тег</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rating in page_obj %}
+                        <tr>
+                            <td><a href="{{ rating.question.get_url }}" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{ rating.question.title }}</a></td>
+                            <td>{{ rating.question.tag }}</td>
+                        </tr>
+                        {% endfor  %}
+                    </tbody>
+                </table>
+                {% endif %}
+                {% if ratings.count > 100 %}
+                <nav>
+                  <ul class="pagination pagination-sm">
+                      {% for p in page_obj.paginator.page_range %}
+                      {% if page_obj.number == p %}
+                      <li class="page-item active" aria-current="page">
+                      <span class="page-link">{{ p }}</span>
+                      </li>
+                      {% else %}
+                        {% if tag %}
+                            <li class="page-item">
+                                  <a class="page-link" href="?tag={{ tag }}&page={{ p }}">{{ p }}</a>
+                              </li>
+                        {% else %}
+                              <li class="page-item">
+                                  <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+                              </li>
+                        {% endif %}
+                      {% endif %}
+                      {% endfor %}
+                  </ul>
+                </nav>
+                {% endif %}
+            </div>
+            {% else %}
+            <div class="col">
+                {% if prof_data.votes_access %}
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>Шанс</th>
+                            <th>Sorag</th>
+                            <th class="d-none d-sm-table-cell">Тег</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rating in page_obj|slice:":15" %}
+                        <tr>
+                            {% if rating.chance >= 10 %}
+                            <td align="center" class=" text-success">{{ rating.chance }}%</td>
+                            {% else %}
+                            <td align="center" class=" text-warning">{{ rating.chance }}%</td>
+                            {% endif %}
+                            <td><a href="{{ rating.question.get_url }}" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{ rating.question.title }}</a></td>
+                            {% if rating.question.tag == Нет %}
+                            <td><a href="https://t.me/kivaiko" target="_blank">Предложить</a></td>
+                            {% else %}
+                            <td>{{ rating.question.tag }}</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor  %}
+                    </tbody>
+                </table>
+                {% else %}
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>Sorag</th>
+                            <th class="d-none d-sm-table-cell">Тег</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rating in page_obj|slice:":15" %}
+                        <tr>
+                            <td><a href="{{ rating.question.get_url }}" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{ rating.question.title }}</a></td>
+                            <td>{{ rating.question.tag }}</td>
+                        </tr>
+                        {% endfor  %}
+                    </tbody>
+                </table>
+                {% endif %}
+            {% endif %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sorag gosmak</h5>
+            <button type="button" class="close btn" data-bs-dismiss="modal" aria-label="Close">
+              <span  aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                           <p class="fs-5">{{ prof_data.title }} sapaga degisli soraglary gosyarsynyz</p>
+                        <label for="{{ form.title.id_for_label }}" class="col-form-label">{{ form.title.label }}</label>
+                        {{ form.title }}
+                      </div>
+                    <div class="mb-3">
+                        <label for="{{ form.tag.id_for_label }}" class="col-form-label">{{ form.tag.label }}</label>
+                        <select name="tag" class="form-select">
+                            {% for tag in available_tags %}
+                                <option value="{{ tag.id }}">{{ tag.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Yapmak</button>
+                        <button type="submit" class="btn btn-primary">Sorag gosmak </button>
+                    </div>
+                </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
