@@ -19,7 +19,7 @@ class Profession(models.Model):
         db_table = 'professions'
 
     title = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
     tags = models.ManyToManyField(Tag, blank=False)
     public_rating = models.BooleanField()
     public_mock = models.BooleanField()
