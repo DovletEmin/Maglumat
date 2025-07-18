@@ -19,7 +19,7 @@
     </p>
     {% endif %}
     <div class="row align-items-start">
-            <div class="col-12 col-md-2 d-flex flex-column align-items-start">
+            <!-- <div class="col-12 col-md-2 d-flex flex-column align-items-start">
                 <p class="">Filtr:</p>
                 <form action="">
                     <select class="form-select" aria-label="Default select example" name="tag">
@@ -35,7 +35,7 @@
                     </select>
                     <button type="submit" class="btn btn-sm btn-primary mt-3">Saylamak</button>
                 </form>
-            </div>
+            </div> -->
             {% if access %}
             <div class="col">
                 <form class="d-flex mb-3" role="search" method="get" action="">
@@ -46,25 +46,25 @@
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
-                            <th>Mumkincilik</th>
+                            <!-- <th>Mumkincilik</th> -->
                             <th>Sorag</th>
-                            <th class="d-none d-sm-table-cell">Teg</th>
+                            <!-- <th class="d-none d-sm-table-cell">Teg</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         {% for rating in page_obj %}
                         <tr>
-                            {% if rating.chance >= 10 %}
+                            <!-- {% if rating.chance >= 10 %}
                             <td align="center" class=" text-success">{{ rating.chance }}%</td>
                             {% else %}
                             <td align="center" class=" text-warning">{{ rating.chance }}%</td>
-                            {% endif %}
+                            {% endif %} -->
                             <td><a href="{{ rating.question.get_url }}" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{ rating.question.title }}</a></td>
-                            {% if rating.question.tag == "Нет" %}
+                            <!-- {% if rating.question.tag == "Нет" %}
                             <td class="d-none d-sm-table-cell"><a class="" href="https://t.me/kivaiko" target="_blank">Предложить</a></td>
                             {% else %}
                             <td class="d-none d-sm-table-cell">{{ rating.question.tag }}</td>
-                            {% endif %}
+                            {% endif %} -->
                         </tr>
                         {% endfor  %}
                     </tbody>
@@ -74,7 +74,7 @@
                     <thead>
                         <tr>
                             <th>Sorag</th>
-                            <th class="d-none d-sm-table-cell">Тег</th>
+                            <!-- <th class="d-none d-sm-table-cell">Тег</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -117,25 +117,25 @@
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
-                            <th>Шанс</th>
+                            <!-- <th>Шанс</th> -->
                             <th>Sorag</th>
-                            <th class="d-none d-sm-table-cell">Тег</th>
+                            <!-- <th class="d-none d-sm-table-cell">Тег</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         {% for rating in page_obj|slice:":15" %}
                         <tr>
-                            {% if rating.chance >= 10 %}
+                            <!-- {% if rating.chance >= 10 %}
                             <td align="center" class=" text-success">{{ rating.chance }}%</td>
                             {% else %}
                             <td align="center" class=" text-warning">{{ rating.chance }}%</td>
-                            {% endif %}
+                            {% endif %} -->
                             <td><a href="{{ rating.question.get_url }}" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{ rating.question.title }}</a></td>
-                            {% if rating.question.tag == Нет %}
+                            <!-- {% if rating.question.tag == Нет %}
                             <td><a href="https://t.me/kivaiko" target="_blank">Предложить</a></td>
                             {% else %}
                             <td>{{ rating.question.tag }}</td>
-                            {% endif %}
+                            {% endif %} -->
                         </tr>
                         {% endfor  %}
                     </tbody>
@@ -145,14 +145,14 @@
                     <thead>
                         <tr>
                             <th>Sorag</th>
-                            <th class="d-none d-sm-table-cell">Тег</th>
+                            <!-- <th class="d-none d-sm-table-cell">Тег</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         {% for rating in page_obj|slice:":15" %}
                         <tr>
                             <td><a href="{{ rating.question.get_url }}" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">{{ rating.question.title }}</a></td>
-                            <td>{{ rating.question.tag }}</td>
+                            <!-- <td>{{ rating.question.tag }}</td> -->
                         </tr>
                         {% endfor  %}
                     </tbody>
