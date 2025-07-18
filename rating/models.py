@@ -18,7 +18,7 @@ class Profession(models.Model):
     class Meta:
         db_table = 'professions'
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255)
     tags = models.ManyToManyField(Tag, blank=False)
     public_rating = models.BooleanField()
